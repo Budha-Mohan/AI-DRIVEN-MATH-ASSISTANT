@@ -1,0 +1,7 @@
+streamlit
+openai
+pytesseract
+Pillow
+sympy
+numpy
+matplotlib
