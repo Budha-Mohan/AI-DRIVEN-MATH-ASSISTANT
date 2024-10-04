@@ -1,7 +1,8 @@
-streamlit
-openai
-pytesseract
-Pillow
-sympy
-numpy
-matplotlib
+openai  # For the OpenAI API
+streamlit  # For deploying your app via Streamlit
+sympy  # For symbolic math computations
+matplotlib  # For graphing mathematical functions
+pytesseract  # For OCR capabilities
+Pillow  # For image processing
+numpy  # For numerical computations
+opencv-python  # For handling image input for OCR
