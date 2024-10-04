@@ -142,15 +142,15 @@ if st.button("Submit"):
     else:
         st.write("Please enter a valid query.")
   
-# Streamlit UI
-st.title("Mathematics Chatbot")
-st.sidebar.header("Options")
+# # Streamlit UI
+# st.title("Mathematics Chatbot")
+# st.sidebar.header("Options")
 
-# User input for math query
-query = st.text_input("Enter your math query:")
-if st.button("Submit"):
-    if query:
-        response = handle_math_query(query)
-        st.write("Response:", response)
-    else:
-        st.write("Please enter a valid query.")
+# # User input for math query
+# query = st.text_input("Enter your math query:")
+# if st.button("Submit"):
+#     if query:
+#         response = handle_math_query(query)
+#         st.write("Response:", response)
+#     else:
+#         st.write("Please enter a valid query.")
