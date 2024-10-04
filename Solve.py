@@ -9,22 +9,49 @@ import numpy as np
 # Set up your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# def generate_response(query):
+#     try:
+#         response = openai.ChatCompletion.create(
+#             model="gpt-4",
+#             messages=[
+#                 {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide direct numerical answers when possible."},
+#                 {"role": "user", "content": query}
+#             ],
+#             max_tokens=150
+#         )
+#         return response.choices[0].message['content'].strip()
+#     except Exception as e:
+#         return f"An error occurred: {e}"
+
+# Function to generate response using OpenAI API
 def generate_response(query):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide direct numerical answers when possible."},
+                {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide detailed solutions and direct numerical answers when possible. Do not respond to non-mathematical queries."},
                 {"role": "user", "content": query}
             ],
-            max_tokens=150
+            max_tokens=300
         )
         return response.choices[0].message['content'].strip()
     except Exception as e:
         return f"An error occurred: {e}"
 
+# Function to check if the query is math-related
+def is_math_query(query):
+    math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
+    math_symbols = re.compile(r'[+\-*/^=()]')
+
+    if math_keywords.search(query) or math_symbols.search(query):
+        return True
+    return False
+
 # Function to handle math queries
 def handle_math_query(query):
+    if not is_math_query(query):
+        return "Please ask a valid mathematical question."
+
     # Check if the query is a simple arithmetic problem
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
     if simple_arithmetic:
@@ -34,8 +61,10 @@ def handle_math_query(query):
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
         return generate_response(query)
+
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
+
 # # Function to solve mathematical expressions directly
 # def solve_expression(expression):
 #     try:
