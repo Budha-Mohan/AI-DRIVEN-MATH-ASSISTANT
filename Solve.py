@@ -32,7 +32,7 @@ def generate_response(query):
                 {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide detailed solutions and direct numerical answers when possible. Do not respond to non-mathematical queries."},
                 {"role": "user", "content": query}
             ],
-            max_tokens=50
+            max_tokens=150
         )
         return response.choices[0].message['content'].strip()
     except Exception as e:
