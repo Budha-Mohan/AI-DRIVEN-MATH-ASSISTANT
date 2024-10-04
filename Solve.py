@@ -23,43 +23,19 @@ def generate_response(query):
     except Exception as e:
         return f"An error occurred: {e}"
 
-def solve_expression(expression):
-    """
-    Solve a mathematical expression and return the result.
-    """
-    try:
-        result = sp.sympify(expression).evalf()
-        return result
-    except (sp.SympifyError, TypeError, ValueError):
-        return "Invalid mathematical expression."
-
+# Function to handle math queries
 def handle_math_query(query):
-    """
-    Handle a mathematical query, solving it directly or via the OpenAI API.
-    """
     # Check if the query is a simple arithmetic problem
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
     if simple_arithmetic:
-        result = solve_expression(query)
-        return f"Answer: {result}."
-
+        return generate_response(query)
+    
     # Check if the query is an equation to solve
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
-        lhs, rhs = equation_match.groups()
-        try:
-            x = sp.symbols('x')
-            solution = sp.solve(sp.Eq(sp.sympify(lhs), sp.sympify(rhs)), x)
-            return f"Solution: {solution}."
-        except (sp.SympifyError, TypeError, ValueError):
-            return "Invalid equation."
-
-    # Check for word problems or complex queries
-    if re.search(r'math|equation|calculate|solve|value|evaluate', query, re.I):
         return generate_response(query)
-
-    # If the query is not math-related
-    return "Please ask a math-related question."
+    # For other types of math queries, use the OpenAI API
+    return generate_response(query)
 # # Function to solve mathematical expressions directly
 # def solve_expression(expression):
 #     try:
