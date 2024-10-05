@@ -103,7 +103,7 @@ if user_input_solution:
     if is_math_query(user_input_solution):
         response = generate_response(user_input_solution)
         st.write("Solution:")
-        st.write(Solution)
+        st.write(response)
     else:
         st.write("Please ask a valid mathematical question.")
 
