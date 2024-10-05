@@ -52,7 +52,7 @@ def handle_math_query(query):
         return "Please ask a valid mathematical question."
 
     # Check if the query is about a constant
-    constant_keywords = re.compile(r'\b(value of|what is|find|give me)\b.*\b(pi|π|e|Euler\'s number)\b', re.IGNORECASE)
+    constant_keywords = re.compile(r'\b(value of|what is|find|give me|calculate|determine)\b.*\b(pi|π|e|Euler\'s number|golden ratio)\b', re.IGNORECASE)
     
     if constant_keywords.search(query):
         # Let the OpenAI API handle the response for constants
@@ -68,6 +68,10 @@ def handle_math_query(query):
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
         return generate_response(query)
+    
+    # For other types of math queries, use the OpenAI API
+    return generate_response(query)
+
 
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
