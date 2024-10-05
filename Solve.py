@@ -50,6 +50,11 @@ def handle_math_query(query):
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
    
+import sympy as sp
+import matplotlib.pyplot as plt
+import numpy as np
+import streamlit as st
+
 # Function to check if the expression is valid
 def is_valid_expression(expr):
     try:
@@ -124,7 +129,18 @@ def plot_function(expr):
 
     return f"Here is the graph of the function: y = {expr}"
 
+# Streamlit UI for graph plotting
+st.title("Graph Plotter")
 
+# User input for expression
+expr = st.text_input("Enter a mathematical expression to plot:")
+if st.button("Plot"):
+    if expr:
+        response = plot_function(expr)
+        st.write(response)
+    else:
+        st.write("Please enter a valid expression.")
+        
 # Streamlit UI
 st.title("Mathematics Chatbot")
 st.sidebar.header("Options")
