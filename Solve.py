@@ -88,17 +88,17 @@ def plot_expression(expression, x_range):
     st.pyplot(plt)
 
 # Streamlit UI setup
-st.title("AI-Assisted Math Chatbot")
-st.write("Enter a mathematical query or ask to plot a function or expression.")
+st.title("MATH TEACHER")
+st.write("Solve with me: .")
 
 # Input form for query
-user_input = st.text_input("Your Query", "")
+user_input = st.text_input("Your Doubts", "")
 
 # Main response logic
 if user_input:
     if is_math_query(user_input):
         response = generate_response(user_input)
-        st.write("### GPT-4 Response:")
+        st.write("Solution:")
         st.write(response)
         
         # Check for plot requests in user query
