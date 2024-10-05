@@ -32,12 +32,34 @@ def is_math_query(query):
         return True
     return False
 
+# # Function to handle math queries
+# def handle_math_query(query):
+#     if not is_math_query(query):
+#         return "Please ask a valid mathematical question."
+
+#     # Check if the query is a simple arithmetic problem
+#     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
+#     if simple_arithmetic:
+#         return generate_response(query)
+    
+#     # Check if the query is an equation to solve
+#     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
+#     if equation_match:
+#         return generate_response(query)
 # Function to handle math queries
 def handle_math_query(query):
     if not is_math_query(query):
         return "Please ask a valid mathematical question."
 
-    # Check if the query is a simple arithmetic problem
+    # Check if the query is about a constant
+    constant_keywords = re.compile(r'\b(value of|what is|find|give me)\b.*\b(pi|π|e|Euler\'s number)\b', re.IGNORECASE)
+    
+    if constant_keywords.search(query):
+        # Let the OpenAI API handle the response for constants
+        response = generate_response(query)
+        return response
+    
+    # Check for simple arithmetic problem
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
     if simple_arithmetic:
         return generate_response(query)
