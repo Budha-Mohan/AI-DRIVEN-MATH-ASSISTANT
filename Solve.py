@@ -1,4 +1,4 @@
-import streamlit as st
+streamlit as st
 import openai
 import sympy as sp
 import re
@@ -17,7 +17,7 @@ def generate_response(query):
                 {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide detailed solutions and direct numerical answers when possible. Do not respond to non-mathematical queries."},
                 {"role": "user", "content": query}
             ],
-            max_tokens=300
+            max_tokens=250
         )
         return response.choices[0].message['content'].strip()
     except Exception as e:
@@ -32,14 +32,12 @@ def is_math_query(query):
         return True
     return False
 
+# Function to handle math queries
 def handle_math_query(query):
     if not is_math_query(query):
         return "Please ask a valid mathematical question."
 
-    # Log the query for debugging
-    print(f"Received query: {query}")  # Debugging line
-    
-    # Check for simple arithmetic problem
+    # Check if the query is a simple arithmetic problem
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
     if simple_arithmetic:
         return generate_response(query)
@@ -48,17 +46,83 @@ def handle_math_query(query):
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
         return generate_response(query)
-        
-    # For other types of math queries, use Sympy
-    try:
-        expr = sp.sympify(query)
-        result = expr.evalf()
-        return f"The result is: {result}"
-    except Exception as e:
-        return f"An error occurred while processing the expression: {e}"
+
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
    
+# Function to check if the expression is valid
+def is_valid_expression(expr):
+    try:
+        x, y = sp.symbols('x y')
+        sp.sympify(expr)
+        return True
+    except (sp.SympifyError, TypeError, ValueError):
+        return False
+
+# Function to plot the mathematical function based on user input
+def plot_function(expr):
+    # Generate x values
+    x_vals = np.linspace(-10, 10, 400)
+
+    # Check if the expression is valid
+    if not is_valid_expression(expr):
+        return "Cannot draw graph: The expression is invalid. Please enter a valid mathematical expression."
+
+    # Define the variable and the expression
+    x, y = sp.symbols('x y')
+    expr_sympy = sp.sympify(expr)  # Convert to SymPy expression
+
+    # Check if the expression is an implicit function (e.g., a circle)
+    if isinstance(expr_sympy, sp.Equality):  # Handle equations in the form of x^2 + y^2 = 25
+        lhs, rhs = expr_sympy.lhs, expr_sympy.rhs
+        if lhs.has(y):
+            # Parametric plotting for implicit functions
+            y_vals = []
+            for val in x_vals:
+                try:
+                    # Solve for y in terms of x
+                    solutions = sp.solve(lhs.subs(x, val) - rhs, y)
+                    for sol in solutions:
+                        y_vals.append(float(sol.evalf()))  # Add all valid y values
+                except Exception:
+                    y_vals.append(np.nan)  # Use NaN for invalid values
+            y_vals = np.array(y_vals)
+
+            # Plotting
+            fig, ax = plt.subplots(figsize=(10, 5))
+            ax.plot(x_vals, y_vals, label=f'Implicit curve: {expr}', color='blue')
+            ax.set_title(f'Graph of the Implicit Function: {expr}')
+            ax.set_xlabel('x')
+            ax.set_ylabel('y')
+            ax.axhline(0, color='black', linewidth=0.5, ls='--')
+            ax.axvline(0, color='black', linewidth=0.5, ls='--')
+            ax.grid(color='gray', linestyle='--', linewidth=0.5)
+            ax.legend()
+            st.pyplot(fig)  # Use Streamlit to display the plot
+            return f"Here is the graph of the implicit function: {expr}"
+
+    # Generate y values for explicit functions
+    y_vals = []
+    for val in x_vals:
+        try:
+            y_val = expr_sympy.subs(x, val).evalf()
+            y_vals.append(float(y_val))
+        except (TypeError, ValueError):
+            y_vals.append(np.nan)  # Use NaN for invalid values
+
+    # Plotting explicit functions
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(x_vals, y_vals, label=f'y = {expr}', color='blue')
+    ax.set_title(f'Graph of the Function: y = {expr}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.axhline(0, color='black', linewidth=0.5, ls='--')
+    ax.axvline(0, color='black', linewidth=0.5, ls='--')
+    ax.grid(color='gray', linestyle='--', linewidth=0.5)
+    ax.legend()
+    st.pyplot(fig)  # Use Streamlit to display the plot
+
+    return f"Here is the graph of the function: y = {expr}"
 
 # Streamlit UI
 st.title("Mathematics Chatbot")
@@ -77,4 +141,3 @@ if st.button("Submit"):
             st.write("Response:", response)
     else:
         st.write("Please enter a valid query.")
-  
