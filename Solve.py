@@ -1,14 +1,16 @@
+
+
 import streamlit as st
 import openai
-import spacy
+import sympy as sp
 import re
 import os
+import matplotlib.pyplot as plt
+import numpy as np
+import spacy
 
 # Set up your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
 
 def generate_response(query):
     try:
@@ -24,12 +26,20 @@ def generate_response(query):
     except Exception as e:
         return f"An error occurred: {e}"
 
+# # Function to check if the query is math-related
+# def is_math_query(query):
+#     math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
+#     math_symbols = re.compile(r'[+\-*/^=()]')
+
+#     if math_keywords.search(query) or math_symbols.search(query):
+#         return True
+#     return False
 # Function to check if the query is math-related using spaCy
 def is_math_query(query):
     doc = nlp(query)
     math_keywords = {"algebra", "calculus", "geometry", "integral", "derivative", "matrix", "equation", "solve", "evaluate", "simplify", "factor", "expand", "differentiate", "integrate", "limit", "function", "graph", "plot", "expression", "variable", "constant", "polynomial", "quadratic", "linear", "exponential", "logarithmic", "trigonometric", "complex", "number", "math", "mathematics"}
     math_symbols = set("+-*/^=()")
-
+    
     for token in doc:
         if token.text.lower() in math_keywords or any(char in math_symbols for char in token.text):
             return True
@@ -52,6 +62,7 @@ def handle_math_query(query):
 
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
+   
 
 # Streamlit UI
 st.title("Mathematics Chatbot")
@@ -61,82 +72,13 @@ st.sidebar.header("Options")
 query = st.text_input("Enter your math query:")
 if st.button("Submit"):
     if query:
-        response = handle_math_query(query)
-        st.write("Response:", response)
+        if "plot" in query.lower():
+            expr = query.split()[-1].strip()  # Extract the last word as the expression
+            response = plot_function(expr)
+            st.write(response)
+        else:
+            response = handle_math_query(query)
+            st.write("Response:", response)
     else:
         st.write("Please enter a valid query.")
-
-
-
-
-# import streamlit as st
-# import openai
-# import sympy as sp
-# import re
-# import os
-# import matplotlib.pyplot as plt
-# import numpy as np
-
-# # Set up your OpenAI API key
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# def generate_response(query):
-#     try:
-#         response = openai.ChatCompletion.create(
-#             model="gpt-4",
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide detailed solutions and direct numerical answers when possible. Do not respond to non-mathematical queries."},
-#                 {"role": "user", "content": query}
-#             ],
-#             max_tokens=300
-#         )
-#         return response.choices[0].message['content'].strip()
-#     except Exception as e:
-#         return f"An error occurred: {e}"
-
-# # Function to check if the query is math-related
-# def is_math_query(query):
-#     math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
-#     math_symbols = re.compile(r'[+\-*/^=()]')
-
-#     if math_keywords.search(query) or math_symbols.search(query):
-#         return True
-#     return False
-
-# # Function to handle math queries
-# def handle_math_query(query):
-#     if not is_math_query(query):
-#         return "Please ask a valid mathematical question."
-
-#     # Check if the query is a simple arithmetic problem
-#     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
-#     if simple_arithmetic:
-#         return generate_response(query)
-    
-#     # Check if the query is an equation to solve
-#     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
-#     if equation_match:
-#         return generate_response(query)
-
-#     # For other types of math queries, use the OpenAI API
-#     return generate_response(query)
-   
-
-# # Streamlit UI
-# st.title("Mathematics Chatbot")
-# st.sidebar.header("Options")
-
-# # User input for math query
-# query = st.text_input("Enter your math query:")
-# if st.button("Submit"):
-#     if query:
-#         if "plot" in query.lower():
-#             expr = query.split()[-1].strip()  # Extract the last word as the expression
-#             response = plot_function(expr)
-#             st.write(response)
-#         else:
-#             response = handle_math_query(query)
-#             st.write("Response:", response)
-#     else:
-#         st.write("Please enter a valid query.")
   
