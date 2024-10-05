@@ -56,7 +56,14 @@ def handle_math_query(query):
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
         return generate_response(query)
-    
+        
+    # For other types of math queries, use Sympy
+    try:
+        expr = sp.sympify(query)
+        result = expr.evalf()
+        return f"The result is: {result}"
+    except Exception as e:
+        return f"An error occurred while processing the expression: {e}"
     # For other types of math queries, use the OpenAI API
     return generate_response(query)
    
