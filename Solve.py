@@ -102,14 +102,14 @@ user_input_solution = st.text_input("Enter your mathematical query for a solutio
 if user_input_solution:
     if is_math_query(user_input_solution):
         response = generate_response(user_input_solution)
-        st.write("### GPT-4 Response:")
-        st.write(response)
+        st.write("Solution:")
+        st.write(Solution)
     else:
         st.write("Please ask a valid mathematical question.")
 
 # Second search bar: Plot Graph Section
 st.header("Plot a Graph")
-plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function/Expression"])
+plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
 
 if plot_type == "Polynomial":
     st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
@@ -119,7 +119,7 @@ if plot_type == "Polynomial":
         coeff_list = list(map(float, coeffs.split(',')))
         plot_expression(coeff_list, x_range)
 
-elif plot_type == "General Function/Expression":
+elif plot_type == "General Function":
     st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
     expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
     x_range = st.slider("Select x range", -10, 10, (-10, 10))
