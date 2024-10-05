@@ -72,8 +72,8 @@ def plot_function(expr):
     x, y = sp.symbols('x y')
     expr_sympy = sp.sympify(expr)  # Convert to SymPy expression
 
-    # Check if the expression is an implicit function (e.g., a circle)
-    if isinstance(expr_sympy, sp.Equality):  # Handle equations in the form of x^2 + y^2 = 25
+    # Check if the expression is an implicit function (e.g., a circle like x^2 + y^2 = 25)
+    if isinstance(expr_sympy, sp.Equality):  # Handle equations like x^2 + y^2 = 25
         lhs, rhs = expr_sympy.lhs, expr_sympy.rhs
         if lhs.has(y):
             # Parametric plotting for implicit functions
@@ -120,10 +120,9 @@ def plot_function(expr):
     ax.axvline(0, color='black', linewidth=0.5, ls='--')
     ax.grid(color='gray', linestyle='--', linewidth=0.5)
     ax.legend()
-    st.pyplot(fig)  # Use Streamlit to display the plot
+    st.pyplot(fig)
 
     return f"Here is the graph of the function: y = {expr}"
-
 # Streamlit UI
 st.title("Mathematics Chatbot")
 st.sidebar.header("Options")
