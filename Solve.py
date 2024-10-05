@@ -5,7 +5,6 @@ import re
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-import spacy
 
 # Set up your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -24,23 +23,13 @@ def generate_response(query):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# # Function to check if the query is math-related
-# def is_math_query(query):
-#     math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
-#     math_symbols = re.compile(r'[+\-*/^=()]')
-
-#     if math_keywords.search(query) or math_symbols.search(query):
-#         return True
-#     return False
-# Function to check if the query is math-related using spaCy
+# Function to check if the query is math-related
 def is_math_query(query):
-    doc = nlp(query)
-    math_keywords = {"algebra", "calculus", "geometry", "integral", "derivative", "matrix", "equation", "solve", "evaluate", "simplify", "factor", "expand", "differentiate", "integrate", "limit", "function", "graph", "plot", "expression", "variable", "constant", "polynomial", "quadratic", "linear", "exponential", "logarithmic", "trigonometric", "complex", "number", "math", "mathematics"}
-    math_symbols = set("+-*/^=()")
-    
-    for token in doc:
-        if token.text.lower() in math_keywords or any(char in math_symbols for char in token.text):
-            return True
+    math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
+    math_symbols = re.compile(r'[+\-*/^=()]')
+
+    if math_keywords.search(query) or math_symbols.search(query):
+        return True
     return False
 
 # Function to handle math queries
