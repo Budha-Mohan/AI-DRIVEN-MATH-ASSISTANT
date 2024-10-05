@@ -36,16 +36,8 @@ def handle_math_query(query):
     if not is_math_query(query):
         return "Please ask a valid mathematical question."
 
-    # Check if the query is about a constant
-    constant_keywords = re.compile(r'\b(value of|what is|find|give me|calculate|determine)\b.*\b(pi|π|e|Euler\'s number|golden ratio|phi|sqrt\(2\)|sqrt\(3\))\b', re.IGNORECASE)
-
     # Log the query for debugging
     print(f"Received query: {query}")  # Debugging line
-
-    if constant_keywords.search(query):
-        # Let the OpenAI API handle the response for constants
-        response = generate_response(query)
-        return response
     
     # Check for simple arithmetic problem
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
