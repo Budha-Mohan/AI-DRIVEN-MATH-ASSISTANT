@@ -2,7 +2,7 @@ streamlit
 openai==0.28.0
 sympy
 matplotlib
-numpy
+numpy==1.23.0
 pillow
 pytesseract
 spacy
