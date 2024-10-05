@@ -25,7 +25,10 @@ def generate_response(query):
 
 # Function to check if the query is math-related
 def is_math_query(query):
-    math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
+    math_keywords = re.compile(
+        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
+        re.IGNORECASE
+    )
     math_symbols = re.compile(r'[+\-*/^=()]')
 
     if math_keywords.search(query) or math_symbols.search(query):
@@ -53,7 +56,10 @@ def handle_math_query(query):
 
 # Check if the query is math-related
 def is_math_query(query):
-    math_keywords = re.compile(r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics)\b', re.IGNORECASE)
+    math_keywords = re.compile(
+        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
+        re.IGNORECASE
+    )
     math_symbols = re.compile(r'[+\-*/^=()]')
 
     return bool(math_keywords.search(query) or math_symbols.search(query))
