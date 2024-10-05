@@ -86,56 +86,36 @@ def plot_expression(expression, x_range):
     plt.grid(True)
     plt.legend()
     st.pyplot(plt)
-
 # Streamlit UI setup
-st.title("MATH TEACHER")
-st.write("Solve with me: .")
+st.title("AI-Assisted Math Chatbot")
 
-# Input form for query
-user_input = st.text_input("Your Doubts", "")
+# First search bar: General Solution Section
+st.header("General Math Solution")
+user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
 
-# Main response logic
-if user_input:
-    if is_math_query(user_input):
-        response = generate_response(user_input)
-        st.write("Solution:")
+if user_input_solution:
+    if is_math_query(user_input_solution):
+        response = generate_response(user_input_solution)
+        st.write("### GPT-4 Response:")
         st.write(response)
-        
-        # Check for plot requests in user query
-        if "plot" in user_input.lower() or "graph" in user_input.lower():
-            plot_type = st.selectbox("Select what to plot:", ["Polynomial", "General Function/Expression"])
-            
-            if plot_type == "Polynomial":
-                coeffs = st.text_input("Enter coefficients (comma-separated)", "")
-                x_range = st.slider("Select x range", -10, 10, (-10, 10))
-                if coeffs:
-                    coeff_list = list(map(float, coeffs.split(',')))
-                    plot_expression(coeff_list, x_range)
-            elif plot_type == "General Function/Expression":
-                expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
-                x_range = st.slider("Select x range", -10, 10, (-10, 10))
-                if expression:
-                    plot_expression(expression, x_range)
-
     else:
         st.write("Please ask a valid mathematical question.")
 
+# Second search bar: Plot Graph Section
+st.header("Plot a Graph")
+plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function/Expression"])
 
+if plot_type == "Polynomial":
+    st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
+    coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
+    x_range = st.slider("Select x range", -10, 10, (-10, 10))
+    if coeffs:
+        coeff_list = list(map(float, coeffs.split(',')))
+        plot_expression(coeff_list, x_range)
 
-# # Streamlit UI
-# st.title("Mathematics Chatbot")
-# st.sidebar.header("Options")
-
-# # User input for math query
-# query = st.text_input("Enter your math query:")
-# if st.button("Submit"):
-#     if query:
-#         if "plot" in query.lower():
-#             expr = query.split()[-1].strip()  # Extract the last word as the expression
-#             response = plot_function(expr)
-#             st.write(response)
-#         else:
-#             response = handle_math_query(query)
-#             st.write("Response:", response)
-#     else:
-#         st.write("Please enter a valid query.")
+elif plot_type == "General Function/Expression":
+    st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
+    expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
+    x_range = st.slider("Select x range", -10, 10, (-10, 10))
+    if expression:
+        plot_expression(expression, x_range)
