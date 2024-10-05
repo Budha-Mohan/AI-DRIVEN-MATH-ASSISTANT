@@ -1,6 +1,6 @@
 streamlit
 openai==0.28.0
-sympy
+sympy==1.11.1
 matplotlib
 numpy==1.23.0
 pillow
