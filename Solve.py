@@ -1,4 +1,4 @@
-streamlit as st
+import streamlit as st
 import openai
 import sympy as sp
 import re
