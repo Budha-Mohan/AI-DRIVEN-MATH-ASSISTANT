@@ -130,14 +130,18 @@ def extract_text_from_image(image):
 # uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
 
 # Streamlit UI setup
-st.title("AI Driven Math Assistant")
+st.title("AI Driven Math Assistant", anchor='middle')
 
-# Create two columns
-col1, col2 = st.columns(2)
+# Create some space between the title and the columns
+st.write("")
+st.write("")
+
+# Create two columns with more spacing
+col1, col2 = st.columns([1, 1], gap="large")
 
 # First Column: General Solution Section
 with col1:
-    st.header("General Math Solution")
+    st.subheader("General Math Solution")
     user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
 
     if user_input_solution:
@@ -150,7 +154,7 @@ with col1:
 
 # Second Column: Plot Graph Section
 with col2:
-    st.header("Plot a Graph")
+    st.subheader("Plot a Graph")
     plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
 
     if plot_type == "Polynomial":
@@ -168,9 +172,11 @@ with col2:
         if expression:
             plot_expression(expression, x_range)
 
-# OCR Section
+# OCR Section remains below
+st.write("")  # Add some space
 st.header("Upload an Image for OCR-Based Math Problem Detection")
 uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
+
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='Uploaded Image.', use_column_width=True)
