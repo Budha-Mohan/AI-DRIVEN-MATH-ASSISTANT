@@ -5,9 +5,16 @@ import matplotlib.pyplot as plt
 import sympy as sp
 import openai
 import streamlit as st
+from PIL import Image
+import pytesseract
 
 # Set up your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Function to extract text using OCR
+def extract_text_from_image(image):
+    text = pytesseract.image_to_string(image)
+    return text
 
 def generate_response(query):
     try:
@@ -125,3 +132,23 @@ elif plot_type == "General Function":
     x_range = st.slider("Select x range", -10, 10, (-10, 10))
     if expression:
         plot_expression(expression, x_range)
+
+# OCR Section
+st.header("Upload an Image for OCR-Based Math Problem Detection")
+uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
+
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image.', use_column_width=True)
+    extracted_text = extract_text_from_image(image)
+    st.write("Extracted Text:")
+    st.write(extracted_text)
+    
+    if is_math_query(extracted_text):
+        st.write("Detected a math-related query. Solving...")
+        response = generate_response(extracted_text)
+        st.write("Solution:")
+        st.write(response)
+    else:
+        st.write("No math-related content detected. Please upload a math-related image.")
+
