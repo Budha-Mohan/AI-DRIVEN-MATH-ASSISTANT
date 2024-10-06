@@ -135,7 +135,7 @@ with col2:
 
 # OCR Section remains below
 st.write("  ")  # Add some space
-st.header("Upload an Image for OCR-Based Math Problem Detection")
+st.header("Upload Your Problems")
 uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
