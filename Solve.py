@@ -30,7 +30,7 @@ def generate_response(query):
 def is_math_query(query):
     math_keywords = re.compile(
         r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|equate|factor|expand|differentiate|integrate|limit|' \
-'function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|' \
+'function|graph|plot|expression|variable|constant|pi|e|ln|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|' \
 'multiply|times|what is|find|calculate|add|sum|subtract|divide|result|total|differences|product)\b', 
         re.IGNORECASE)
     math_symbols = re.compile(r'[+\-*/^=()]')
@@ -90,45 +90,6 @@ def extract_text_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
-# # Streamlit UI setup
-# st.title("AI Driven Math Assistant")
-
-# # First search bar: General Solution Section
-# st.header("General Math Solution")
-# user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
-
-# if user_input_solution:
-#     if is_math_query(user_input_solution):
-#         response = generate_response(user_input_solution)
-#         st.write("Solution:")
-#         st.write(response)
-#     else:
-#         st.write("Please ask a valid mathematical question.")
-
-# # Second search bar: Plot Graph Section
-# st.header("Plot a Graph")
-# plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
-
-# if plot_type == "Polynomial":
-#     st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
-#     coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
-#     x_range = st.slider("Select x range", -10, 10, (-10, 10))
-#     if coeffs:
-#         coeff_list = list(map(float, coeffs.split(',')))
-#         plot_expression(coeff_list, x_range)
-
-# elif plot_type == "General Function":
-#     st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
-#     expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
-#     x_range = st.slider("Select x range", -10, 10, (-10, 10))
-#     if expression:
-#         plot_expression(expression, x_range)
-        
-
-# # OCR Section
-# st.header("Upload an Image for OCR-Based Math Problem Detection")
-# uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
-
 # Streamlit UI setup
 st.title("AI Driven Math Assistant", anchor='middle')
 
@@ -173,7 +134,7 @@ with col2:
             plot_expression(expression, x_range)
 
 # OCR Section remains below
-st.write("")  # Add some space
+st.write("  ")  # Add some space
 st.header("Upload an Image for OCR-Based Math Problem Detection")
 uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
 
