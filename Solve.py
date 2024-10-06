@@ -18,8 +18,8 @@ def generate_response(query):
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that solves mathematical problems.
-                Provide detailed solutions and direct numerical answers when possible.
-                Do not respond to non-mathematical queries."},
+                                               Provide detailed solutions and direct numerical answers when possible.
+                                               Do not respond to non-mathematical queries."},
                 {"role": "user", "content": query}
             ],
             max_tokens=250
