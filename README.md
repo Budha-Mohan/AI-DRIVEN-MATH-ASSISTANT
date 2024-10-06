@@ -9,11 +9,10 @@ This AI-assisted math chatbot utilizes OpenAI's GPT-4 API to solve mathematical 
 - **OCR Support:** Extracts text from images and detects math problems using Tesseract OCR.
 - **User-Friendly Interface:** Built using Streamlit for a simple and interactive user experience.
 
-## Installation
+> <!--To run this project locally, follow these steps:
 
-To run this project locally, follow these steps:
-
-1. **Clone the repository:**
+//1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   cd your-repo-name//
+ -->
