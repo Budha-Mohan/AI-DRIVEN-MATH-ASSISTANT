@@ -11,12 +11,15 @@ import pytesseract
 #OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+#Reading functions
 def generate_response(query):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that solves mathematical problems. Provide detailed solutions and direct numerical answers when possible. Do not respond to non-mathematical queries."},
+                {"role": "system", "content": "You are a helpful assistant that solves mathematical problems.
+                Provide detailed solutions and direct numerical answers when possible.
+                Do not respond to non-mathematical queries."},
                 {"role": "user", "content": query}
             ],
             max_tokens=250
@@ -25,14 +28,15 @@ def generate_response(query):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Function to check if the query is math-related
+# Check for math related query
 def is_math_query(query):
     math_keywords = re.compile(
-        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
-        re.IGNORECASE
-    )
+        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|Equate|
+        |factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic
+        |linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|sum|subtract|divide
+        |result|total|differences|product)\b', 
+        re.IGNORECASE)
     math_symbols = re.compile(r'[+\-*/^=()]')
-
     if math_keywords.search(query) or math_symbols.search(query):
         return True
     return False
@@ -42,29 +46,29 @@ def handle_math_query(query):
     if not is_math_query(query):
         return "Please ask a valid mathematical question."
 
-    # Check if the query is a simple arithmetic problem
+    # To check if the query is ARITHMETIC PROBLEM to SOLVE
     simple_arithmetic = re.match(r'^\s*\d+\s*[\+\-\*/]\s*\d+\s*$', query)
     if simple_arithmetic:
         return generate_response(query)
     
-    # Check if the query is an equation to solve
+    # To check if the query is an EQUATIONS to SOLVE
     equation_match = re.match(r'^\s*(.+?)\s*=\s*(.+?)\s*$', query)
     if equation_match:
         return generate_response(query)
 
-    # For other types of math queries, use the OpenAI API
+    # For general maths use the OpenAI API
     return generate_response(query)
 
 
-# Check if the query is math-related
-def is_math_query(query):
-    math_keywords = re.compile(
-        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
-        re.IGNORECASE
-    )
-    math_symbols = re.compile(r'[+\-*/^=()]')
+# # Check if the query is math-related
+# def is_math_query(query):
+#     math_keywords = re.compile(
+#         r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
+#         re.IGNORECASE
+#     )
+#     math_symbols = re.compile(r'[+\-*/^=()]')
 
-    return bool(math_keywords.search(query) or math_symbols.search(query))
+#     return bool(math_keywords.search(query) or math_symbols.search(query))
 
 # Unified plotting function for expressions (polynomials, general equations, trig functions)
 def plot_expression(expression, x_range):
