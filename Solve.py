@@ -31,7 +31,7 @@ def generate_response(query):
 # Check for math related query
 def is_math_query(query):
     math_keywords = re.compile(
-        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|Equate|
+        r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|Equate
         |factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic
         |linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|sum|subtract|divide
         |result|total|differences|product)\b', 
