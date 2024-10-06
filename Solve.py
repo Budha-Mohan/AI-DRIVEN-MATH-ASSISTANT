@@ -132,6 +132,8 @@ elif plot_type == "General Function":
     x_range = st.slider("Select x range", -10, 10, (-10, 10))
     if expression:
         plot_expression(expression, x_range)
+    else:
+        st.write("Correct way please")
 
 # OCR Section
 st.header("Upload an Image for OCR-Based Math Problem Detection")
