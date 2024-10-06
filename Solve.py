@@ -26,7 +26,7 @@ def generate_response(query):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Check for math related query
+# To check for math related query
 def is_math_query(query):
     math_keywords = re.compile(
         r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|equate|factor|expand|differentiate|integrate|limit|' \
@@ -56,29 +56,18 @@ def handle_math_query(query):
     # For general maths use the OpenAI API
     return generate_response(query)
 
-
-# # Check if the query is math-related
-# def is_math_query(query):
-#     math_keywords = re.compile(
-#         r'\b(algebra|calculus|geometry|integral|derivative|matrix|equation|solve|evaluate|simplify|factor|expand|differentiate|integrate|limit|function|graph|plot|expression|variable|constant|polynomial|quadratic|linear|exponential|logarithmic|trigonometric|complex|number|math|mathematics|multiply|times|what is|find|calculate|add|subtract|divide|result|total|sum|product|difference)\b', 
-#         re.IGNORECASE
-#     )
-#     math_symbols = re.compile(r'[+\-*/^=()]')
-
-#     return bool(math_keywords.search(query) or math_symbols.search(query))
-
-# Unified plotting function for expressions (polynomials, general equations, trig functions)
+# Functions for plotting: polynomials, general equations, trig functions
 def plot_expression(expression, x_range):
     x_vals = np.linspace(x_range[0], x_range[1], 1000)
 
-    if isinstance(expression, list):  # Polynomial case
+    if isinstance(expression, list):                  # Polynomial case
         y_vals = np.polyval(expression, x_vals)
         poly_expr = np.poly1d(expression)
         label = f'Polynomial: {poly_expr}'
-    elif isinstance(expression, (str, sp.Expr)):  # General equation or trig function case
+    elif isinstance(expression, (str, sp.Expr)):      # General equation or trig function case
         x = sp.symbols('x')
         if isinstance(expression, str):
-            expression = sp.sympify(expression)  # Convert string to sympy expression
+            expression = sp.sympify(expression)        # Convert string to sympy expression
         func_lambdified = sp.lambdify(x, expression, 'numpy')
         y_vals = func_lambdified(x_vals)
         label = f'y = {expression}'
@@ -95,50 +84,93 @@ def plot_expression(expression, x_range):
     plt.grid(True)
     plt.legend()
     st.pyplot(plt)
-    
-# Streamlit UI setup
-st.title("AI-Assisted Math Chatbot")
 
-# First search bar: General Solution Section
-st.header("General Math Solution")
-user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
-
-if user_input_solution:
-    if is_math_query(user_input_solution):
-        response = generate_response(user_input_solution)
-        st.write("Solution:")
-        st.write(response)
-    else:
-        st.write("Please ask a valid mathematical question.")
-
-# Second search bar: Plot Graph Section
-st.header("Plot a Graph")
-plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
-
-if plot_type == "Polynomial":
-    st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
-    coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
-    x_range = st.slider("Select x range", -10, 10, (-10, 10))
-    if coeffs:
-        coeff_list = list(map(float, coeffs.split(',')))
-        plot_expression(coeff_list, x_range)
-
-elif plot_type == "General Function":
-    st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
-    expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
-    x_range = st.slider("Select x range", -10, 10, (-10, 10))
-    if expression:
-        plot_expression(expression, x_range)
-        
 # Function to extract text using OCR
 def extract_text_from_image(image):
     text = pytesseract.image_to_string(image)
     return text
 
+# # Streamlit UI setup
+# st.title("AI Driven Math Assistant")
+
+# # First search bar: General Solution Section
+# st.header("General Math Solution")
+# user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
+
+# if user_input_solution:
+#     if is_math_query(user_input_solution):
+#         response = generate_response(user_input_solution)
+#         st.write("Solution:")
+#         st.write(response)
+#     else:
+#         st.write("Please ask a valid mathematical question.")
+
+# # Second search bar: Plot Graph Section
+# st.header("Plot a Graph")
+# plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
+
+# if plot_type == "Polynomial":
+#     st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
+#     coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
+#     x_range = st.slider("Select x range", -10, 10, (-10, 10))
+#     if coeffs:
+#         coeff_list = list(map(float, coeffs.split(',')))
+#         plot_expression(coeff_list, x_range)
+
+# elif plot_type == "General Function":
+#     st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
+#     expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
+#     x_range = st.slider("Select x range", -10, 10, (-10, 10))
+#     if expression:
+#         plot_expression(expression, x_range)
+        
+
+# # OCR Section
+# st.header("Upload an Image for OCR-Based Math Problem Detection")
+# uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
+
+# Streamlit UI setup
+st.title("AI Driven Math Assistant")
+
+# Create two columns
+col1, col2 = st.columns(2)
+
+# First Column: General Solution Section
+with col1:
+    st.header("General Math Solution")
+    user_input_solution = st.text_input("Enter your mathematical query for a solution", "")
+
+    if user_input_solution:
+        if is_math_query(user_input_solution):
+            response = generate_response(user_input_solution)
+            st.write("Solution:")
+            st.write(response)
+        else:
+            st.write("Please ask a valid mathematical question.")
+
+# Second Column: Plot Graph Section
+with col2:
+    st.header("Plot a Graph")
+    plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
+
+    if plot_type == "Polynomial":
+        st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
+        coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
+        x_range = st.slider("Select x range", -10, 10, (-10, 10))
+        if coeffs:
+            coeff_list = list(map(float, coeffs.split(',')))
+            plot_expression(coeff_list, x_range)
+
+    elif plot_type == "General Function":
+        st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
+        expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
+        x_range = st.slider("Select x range", -10, 10, (-10, 10))
+        if expression:
+            plot_expression(expression, x_range)
+
 # OCR Section
 st.header("Upload an Image for OCR-Based Math Problem Detection")
 uploaded_file = st.file_uploader("Upload an image containing a math problem (jpg, png, jpeg)", type=["jpg", "png", "jpeg"])
-
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='Uploaded Image.', use_column_width=True)
