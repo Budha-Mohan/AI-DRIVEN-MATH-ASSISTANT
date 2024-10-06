@@ -122,7 +122,7 @@ plot_type = st.radio("Select what to plot:", ["Polynomial", "General Function"])
 if plot_type == "Polynomial":
     st.write("**Example input:** `2, -3, 1` for the polynomial `2x² - 3x + 1`")
     coeffs = st.text_input("Enter polynomial coefficients (comma-separated)", "")
-    x_range = st.slider("Select x range", -100, 100, (-100, 100))
+    x_range = st.slider("Select x range", -10, 10, (-10, 10))
     if coeffs:
         coeff_list = list(map(float, coeffs.split(',')))
         plot_expression(coeff_list, x_range)
@@ -130,7 +130,7 @@ if plot_type == "Polynomial":
 elif plot_type == "General Function":
     st.write("**Example inputs:** `sin(x)`, `x**2 + 4*x + 4`, `cos(x)`")
     expression = st.text_input("Enter the function/expression to plot (e.g., sin(x) or x**2 + 4*x + 4):", "")
-    x_range = st.slider("Select x range", -100, 100, (-100, 100))
+    x_range = st.slider("Select x range", -10, 10, (-10, 10))
     if expression:
         plot_expression(expression, x_range)
 
