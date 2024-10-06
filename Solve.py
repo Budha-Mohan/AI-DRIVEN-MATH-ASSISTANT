@@ -8,13 +8,8 @@ import streamlit as st
 from PIL import Image
 import pytesseract
 
-# Set up your OpenAI API key
+#OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Function to extract text using OCR
-def extract_text_from_image(image):
-    text = pytesseract.image_to_string(image)
-    return text
 
 def generate_response(query):
     try:
@@ -133,6 +128,11 @@ elif plot_type == "General Function":
     x_range = st.slider("Select x range", -10, 10, (-10, 10))
     if expression:
         plot_expression(expression, x_range)
+        
+# Function to extract text using OCR
+def extract_text_from_image(image):
+    text = pytesseract.image_to_string(image)
+    return text
 
 # OCR Section
 st.header("Upload an Image for OCR-Based Math Problem Detection")
