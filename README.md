@@ -16,3 +16,9 @@ This AI-assisted math chatbot utilizes OpenAI's GPT-4 API to solve mathematical 
    git clone https://github.com/yourusername/your-repo-name.git
    cd your-repo-name//
  -->
+
+
+### Access the App
+
+You can try out the app [here](https://solve-maths.streamlit.app).
+
