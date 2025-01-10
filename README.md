@@ -8,7 +8,7 @@ The **AI-Assisted Mathematics Chatbot** is an advanced tool designed to solve co
 
 - **Math Problem Solving**: Handles basic to advanced engineering math problems.
 - **Graph Plotting**: Plots graphs of functions, equations, polynomials, and geometric shapes.
-- **OCR Integration**: Detects and solves math problems directly from uploaded images.
+- **OCR Integration**: Detects and solves math problems directly from uploaded simple images queries.
 - **User-Friendly Interface**: Built using Streamlit for seamless deployment and interaction.
 
 ---
@@ -50,23 +50,17 @@ The **AI-Assisted Mathematics Chatbot** is an advanced tool designed to solve co
 
 1. **Math Queries**: Type your mathematical question in the text input box.
 2. **Graph Plotting**: Ask to plot functions like `sin(x)`, `x^2`, or custom equations.
-3. **OCR Functionality**: Upload an image containing a math problem and let the chatbot extract and solve it.
+3. **OCR Functionality**: Upload an image containing a math problem and let the chatbot extract and solve it but its in nacent stage and cannot handel complex problems.
 
 ---
+## Presentation
 
+Download the project presentation:
+[AI-Assisted Mathematics Chatbot Presentation](AI DRIVEN MATH ASSISTANT-PRESENTATION.pptx)
 ## Screenshots
 
 ### Home Screen
-![Home Screen](home_screen.jpg)
-
-### Solving a Math Problem
-![Solving Math Problem](solving_math_problem.jpg)
-
-### Graph Plotting
-![Graph Plotting](graph_plotting.jpg)
-
-### OCR Feature
-![OCR Feature](ocr_feature.jpg)
+![Home Screen](Math Assistant Home Page.jpg)
 
 ---
 
@@ -95,5 +89,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 For questions or feedback, contact:
-- **Email**: your-mohanbudha000@.com
+- **Email**: your-mohanbudha000@gmail.com
 - **GitHub**: [your-username](https://github.com/Budha-Mohan)
