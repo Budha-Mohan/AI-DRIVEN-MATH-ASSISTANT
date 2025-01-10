@@ -56,11 +56,11 @@ The **AI-Assisted Mathematics Chatbot** is an advanced tool designed to solve co
 ## Presentation
 
 Download the project presentation:
-[AI-Assisted Mathematics Chatbot Presentation](AI DRIVEN MATH ASSISTANT-PRESENTATION.pptx)
+[AI-Assisted Mathematics Chatbot Presentation](Presentation.pptx)
 ## Screenshots
 
 ### Home Screen
-![Home Screen](Math Assistant Home Page.jpg)
+![Home Screen](HomePage.jpg)
 
 ---
 
