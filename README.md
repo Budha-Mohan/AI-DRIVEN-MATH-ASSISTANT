@@ -1,9 +1,9 @@
-# AI-Assisted Mathematics Chatbot
+# AI Driven Math Chatbot
 ### Home Screen
 ![Home Screen](HomePage.jpg)
 
 ## Overview
-The **AI-Assisted Mathematics Chatbot** is an advanced tool designed to solve complex mathematical problems, plot graphs, and extract math problems from images using OCR. It leverages OpenAI's GPT-4 API and supports both numerical and word-based math queries.
+The **AI-Driven Mathematics Chatbot** is an advanced tool designed to solve complex mathematical problems, plot graphs, and extract math problems from images using OCR. It leverages OpenAI's GPT-4 API and supports both numerical and word-based math queries.
 
 ---
 
@@ -59,12 +59,12 @@ The **AI-Assisted Mathematics Chatbot** is an advanced tool designed to solve co
 ## Presentation
 
 Download the project presentation:
-[AI-Assisted Mathematics Chatbot Presentation](Presentation.pptx)
+[AI Driven Math Chatbot Presentation](Presentation.pptx)
 
 ## Demo Video
 
 Watch the demo video:
-[AI Driven Math Assistant](Demo_video.mp4)
+[AI Driven Math Assistant](Demo_Video.mp4)
 ---
 
 ## Deployment
