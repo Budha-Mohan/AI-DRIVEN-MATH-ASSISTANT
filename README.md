@@ -62,10 +62,7 @@ Download the project presentation:
 [AI Driven Math Chatbot Presentation](Presentation.pptx)
 
 ## Demo Video
-
-Watch the demo video:
-[AI Driven Math Assistant](Demo_Video.mp4)
----
+[AI Driven Math Demo Video Presentation/Downlaod](DemoVideo.mp4)
 
 ## Deployment
 
